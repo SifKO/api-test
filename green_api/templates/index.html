@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="left">
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ form.api_token_instance }}
+            <br>
+            {{ form.id_instance }}
+            <br>
+            <button type="submit" name="action" value="getSettings">getSettings</button>
+            <br>
+            <button type="submit" name="action" value="getStateInstance">getStateInstance</button>
+            <br>
+
+            {{ form.send_to_id }}
+            <br>
+            {{ form.message }}
+            <br>
+            <button type="submit" name="action" value="sendMessage">sendMessage</button>
+            <br>
+            {{ form.send_to_id_img }}
+            <br>
+            {{ form.img_url }}
+            <button type="submit" name="action" value="sendFileByUrl">sendFileByUrl</button>
+            <br>
+        </form>
+    </div>
+    <div class="right">
+        <label for="response"  >{{ form.response.label }}</label>
+        <br>
+        <div class="textarea">
+            {{ form.response }}
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
