@@ -1,0 +1,32 @@
+stages:
+  - test
+
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+
+sonarqube-frontend-sast:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:11.0
+    # name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    # Defines the location of the analysis task cache
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" 
+    # Tells git to fetch all the branches of the project, required by the analysis task
+    GIT_DEPTH: "0" 
+  cache:
+    key: "${SONAR_TOKEN}"
+    paths:
+      - .sonar/cache
+  script: 
+    - >
+      sonar-scanner
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.projectKey=${SONAR_PROJECT_KEY}
+      -Dsonar.host.url=${SONARQUBE_URL}
+      -Dsonar.login=${SONAR_PROJECT_LOGIN}
+      -Dsonar.projectName=MyProjektSonarqube
+      -Dsonar.sources=.
+      -Dsonar.python.version=3.11
+  allow_failure: true
